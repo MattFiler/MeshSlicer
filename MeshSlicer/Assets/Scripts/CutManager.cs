@@ -26,12 +26,13 @@ public class CutManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 1000.0f))
             {
-                DeleteTriangle(hit.triangleIndex, hit.transform.gameObject);
+                MeshCutter.Instance.Cut(hit.collider.gameObject, hit.point, Camera.main.transform.up);
+                //DeleteTriangle(hit.triangleIndex, hit.transform.gameObject);
             }
 
             laserLineRenderer.SetPosition(0, ray.origin);
             laserLineRenderer.SetPosition(1, ray.origin + (1000.0f * ray.direction));
-            laserLineRenderer.enabled = true;
+            //laserLineRenderer.enabled = true;
         }
 
         //VR point interaction
@@ -41,7 +42,8 @@ public class CutManager : MonoBehaviour
             Ray ray = new Ray(vrHand.transform.position, vrHand.transform.forward);
             if (Physics.Raycast(ray, out hit, 1000.0f))
             {
-                DeleteTriangle(hit.triangleIndex, hit.transform.gameObject);
+                MeshCutter.Instance.Cut(hit.collider.gameObject, hit.point, Camera.main.transform.up);
+                //DeleteTriangle(hit.triangleIndex, hit.transform.gameObject);
             }
 
             laserLineRenderer.SetPosition(0, ray.origin);
