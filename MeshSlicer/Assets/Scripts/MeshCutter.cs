@@ -15,9 +15,9 @@ public class MeshCutter : MonoSingleton<MeshCutter>
     private Mesh originalMesh = null;
 
     /* Split a given game object's mesh into left/right sides, fill the middle, and put back to the world */
-    public void Cut(GameObject cutObject, Vector3 cutPoint, Vector3 cutDirection)
+    public GameObject Cut(GameObject cutObject, Vector3 cutPoint, Vector3 cutDirection)
     {
-        if (currentlyCutting) return;
+        if (currentlyCutting) return null;
         currentlyCutting = true;
         originalMesh = cutObject.GetComponent<MeshFilter>().mesh;
 
@@ -120,6 +120,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
 
         //Done!
         currentlyCutting = false;
+        return offcutObject;
     }
 
     /* If a triangle crosses the left/right side of the plane, cut it into half (3 triangles) */
@@ -265,7 +266,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         List<Vector3> vertices = new List<Vector3>();
         List<Vector3> meshPoly = new List<Vector3>();
 
-        for (int i = 0; i < newVerts.Count; i++)
+        for (int i = 0; i < newVerts.Count; i++) //newVerts.Count - 1?
         {
             if (!vertices.Contains(newVerts[i]))
             {

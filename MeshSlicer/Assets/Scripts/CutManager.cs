@@ -15,6 +15,7 @@ public class CutManager : MonoBehaviour
     }
 
     [SerializeField] private GameObject vrHand;
+    private List<GameObject> CutTracker = new List<GameObject>();
 
     /* On PC, allow mouse clicks to interact with a mesh, in VR do it from controller */
     void Update()
@@ -26,13 +27,16 @@ public class CutManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 1000.0f))
             {
-                MeshCutter.Instance.Cut(hit.collider.gameObject, hit.point, Camera.main.transform.up);
-                //DeleteTriangle(hit.triangleIndex, hit.transform.gameObject);
+                if (Input.GetKey(KeyCode.R))
+                {
+                    CutTracker.Clear();
+                    RecursivelyCut(hit.collider.gameObject, 5);
+                }
+                else
+                {
+                    MeshCutter.Instance.Cut(hit.collider.gameObject, hit.point, Camera.main.transform.up);
+                }
             }
-
-            laserLineRenderer.SetPosition(0, ray.origin);
-            laserLineRenderer.SetPosition(1, ray.origin + (1000.0f * ray.direction));
-            //laserLineRenderer.enabled = true;
         }
 
         //VR point interaction
@@ -56,6 +60,27 @@ public class CutManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         else
             Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    /* Recursively cut a GameObject's mesh */
+    private void RecursivelyCut(GameObject toCut, int MaxCuts)
+    {
+        if (CutTracker.Count >= MaxCuts) return;
+        if (!CutTracker.Contains(toCut)) CutTracker.Add(toCut);
+
+        List<GameObject> NewEntries = new List<GameObject>();
+        foreach (GameObject cutEntry in CutTracker)
+        {
+            if (cutEntry == null) continue;
+            List<Vector3> VertOut = new List<Vector3>();
+            cutEntry.GetComponent<MeshFilter>().mesh.GetVertices(VertOut);
+            if (VertOut.Count == 0) continue;
+            Vector3 VertToUse = VertOut[Random.Range(0, VertOut.Count)];
+            NewEntries.Add(MeshCutter.Instance.Cut(cutEntry, cutEntry.transform.TransformPoint(VertToUse), new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360))));
+        }
+        CutTracker.AddRange(NewEntries);
+
+        RecursivelyCut(toCut, MaxCuts);
     }
 
     /* Delete a triangle at a given index in a given GameObject's mesh */
