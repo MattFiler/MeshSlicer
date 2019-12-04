@@ -732,8 +732,9 @@ GameObject:
   - component: {fileID: 541407421}
   - component: {fileID: 541407420}
   - component: {fileID: 541407422}
+  - component: {fileID: 541407423}
   m_Layer: 0
-  m_Name: Cut Manager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,6 +863,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &541407423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541407419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa2b6b3f5b66b1b4f8eb2c70262b2f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &665431687
 GameObject:
   m_ObjectHideFlags: 0

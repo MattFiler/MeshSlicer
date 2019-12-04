@@ -1,0 +1,16 @@
+{
+  "materials": [
+    {
+      "type": "CONCRETE",
+      "can_shatter": true,
+      "strength": 26,
+      "density": 26
+    },
+    {
+      "type": "GLASS",
+      "can_shatter": true,
+      "strength": 30,
+      "density": 30
+    }
+  ]
+}
