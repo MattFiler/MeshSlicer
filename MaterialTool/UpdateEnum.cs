@@ -9,7 +9,7 @@ namespace MaterialTool
 {
     class UpdateEnum
     {
-        private static string PathToFile = "MeshSlicer/Assets/Scripts/ObjectMaterialDefinition.cs";
+        private static string PathToFile = "MeshSlicer/Assets/Scripts/ObjectMaterialManager.cs";
         private static bool CanEdit = false;
 
         /* Make an enum from the existing name */

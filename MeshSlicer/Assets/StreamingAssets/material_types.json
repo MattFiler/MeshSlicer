@@ -11,6 +11,12 @@
       "can_shatter": true,
       "strength": 30,
       "density": 30
+    },
+    {
+      "type": "BEDROCK",
+      "can_shatter": false,
+      "strength": 0,
+      "density": 0
     }
   ]
 }
