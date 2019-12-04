@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* Material definition for an object */
-public class ObjectMaterialDefinition : MonoBehaviour
+public class ObjectMaterial : MonoBehaviour
 {
-    [SerializeField] private MateralTypes MaterialType;
+    [SerializeField] public MaterialTypes MaterialType;
 }

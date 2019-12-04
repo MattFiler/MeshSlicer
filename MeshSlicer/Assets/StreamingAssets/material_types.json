@@ -3,14 +3,14 @@
     {
       "type": "CONCRETE",
       "can_shatter": true,
-      "strength": 26,
-      "density": 26
+      "strength": 50,
+      "density": 100
     },
     {
       "type": "GLASS",
       "can_shatter": true,
-      "strength": 30,
-      "density": 30
+      "strength": 35,
+      "density": 25
     },
     {
       "type": "BEDROCK",

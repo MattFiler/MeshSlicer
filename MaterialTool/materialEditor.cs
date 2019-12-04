@@ -51,11 +51,6 @@ namespace MaterialTool
                 MessageBox.Show("Please complete all fields before saving.", "Incomplete data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (MaterialIsBreakable.Checked && (MaterialStrength.Value == 0 || MaterialDensity.Value == 0))
-            {
-                MessageBox.Show("Material density/strength cannot be zero.", "Incorrect data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             JObject JsonConfig = JObject.Parse(File.ReadAllText(AchievementJsonPath));
             if (EditorContent == null)
@@ -74,7 +69,7 @@ namespace MaterialTool
             NewMaterialEntry["type"] = MaterialName.Text.Trim();
             NewMaterialEntry["can_shatter"] = MaterialIsBreakable.Checked;
             NewMaterialEntry["strength"] = MaterialStrength.Value;
-            NewMaterialEntry["density"] = MaterialStrength.Value;
+            NewMaterialEntry["density"] = MaterialDensity.Value;
 
             if (EditorContent != null)
             {

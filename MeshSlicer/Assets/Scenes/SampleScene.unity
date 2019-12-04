@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 541407420}
   - component: {fileID: 541407422}
   - component: {fileID: 541407423}
+  - component: {fileID: 541407424}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -780,7 +781,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4529aa120c55ee64da7680e7d735a245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vrHand: {fileID: 2006129151}
 --- !u!4 &541407421
 Transform:
   m_ObjectHideFlags: 0
@@ -900,10 +900,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 541407419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa2b6b3f5b66b1b4f8eb2c70262b2f91, type: 3}
+  m_Script: {fileID: 11500000, guid: d18c28b0d5804334e940a94d0622b720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaterialType: 0
+--- !u!114 &541407424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541407419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729c9adbab6e0844f9f3cf06c7ec9061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vrHand: {fileID: 2006129151}
 --- !u!1 &665431687
 GameObject:
   m_ObjectHideFlags: 0

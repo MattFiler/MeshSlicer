@@ -72,7 +72,7 @@
             this.groupBox2.Size = new System.Drawing.Size(358, 150);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Breakable Configuration";
+            this.groupBox2.Text = "Configuration";
             // 
             // MaterialDensity
             // 
@@ -99,9 +99,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 84);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(82, 13);
+            this.label6.Size = new System.Drawing.Size(158, 13);
             this.label6.TabIndex = 21;
-            this.label6.Text = "Material Density";
+            this.label6.Text = "Fragility of material when broken";
             // 
             // MaterialStrength
             // 
@@ -128,9 +128,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 20);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(87, 13);
+            this.label4.Size = new System.Drawing.Size(149, 13);
             this.label4.TabIndex = 18;
-            this.label4.Text = "Material Strength";
+            this.label4.Text = "Impact force required to break";
             // 
             // MaterialName
             // 

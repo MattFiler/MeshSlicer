@@ -1,16 +1,69 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /* Material manager */
-public class ObjectMaterialManager : MonoBehaviour
+public class ObjectMaterialManager : MonoSingleton<ObjectMaterialManager>
 {
-    MaterialDefinitions matTypes;
+    MaterialDefinitions materialData;
 
     /* Pull material data from json on startup */
     private void Start()
     {
-        matTypes = (MaterialDefinitions)JsonUtility.FromJson(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/material_types.json"), typeof(MaterialDefinitions));
+        materialData = (MaterialDefinitions)JsonUtility.FromJson(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/material_types.json"), typeof(MaterialDefinitions));
+        Debug.Log(materialData.materials.Count);
+    }
+
+    /* Can the requested material break? */
+    public bool CanMaterialBreak(MaterialTypes type)
+    {
+        foreach (MaterialDefinition material in materialData.materials)
+        {
+            if (material.type == type.ToString())
+            {
+                return material.can_shatter;
+            }
+        }
+        Debug.LogError("Tried to access data for non-existant material (" + type + ")! DO NOT MANUALLY EDIT THE FILES!");
+        return false;
+    }
+
+    /* What is the strength of the requested material? */
+    public int GetMaterialStrength(MaterialTypes type)
+    {
+        foreach (MaterialDefinition material in materialData.materials)
+        {
+            if (material.type == type.ToString())
+            {
+                if (!material.can_shatter)
+                {
+                    Debug.LogError("Tried to access strength value of non-breakable material (" + type + "). Always call CanMaterialBreak first!");
+                    return 1;
+                }
+                return material.strength;
+            }
+        }
+        Debug.LogError("Tried to access data for non-existant material (" + type + ")! DO NOT MANUALLY EDIT THE FILES!");
+        return 1;
+    }
+
+    /* What is the density of the requested material? */
+    public int GetMaterialDensity(MaterialTypes type)
+    {
+        foreach (MaterialDefinition material in materialData.materials)
+        {
+            if (material.type == type.ToString())
+            {
+                if (!material.can_shatter)
+                {
+                    Debug.LogError("Tried to access density value of non-breakable material (" + type + "). Always call CanMaterialBreak first!");
+                    return 1;
+                }
+                return material.density;
+            }
+        }
+        Debug.LogError("Tried to access data for non-existant material (" + type + ")! DO NOT MANUALLY EDIT THE FILES!");
+        return 1;
     }
 }
 
@@ -30,7 +83,7 @@ public class MaterialDefinition
 }
 
 /* This enum is auto-populated... do not edit anything below this line! */
-public enum MateralTypes
+public enum MaterialTypes
 {
     /*START*/
     BEDROCK,
