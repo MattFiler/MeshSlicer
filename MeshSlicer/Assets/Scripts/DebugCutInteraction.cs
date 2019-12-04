@@ -22,7 +22,7 @@ public class DebugCutInteraction : MonoBehaviour
                 }
                 else
                 {
-                    MeshCutterManager.Instance.DamageMesh(hit.collider.gameObject);
+                    MeshCutterManager.Instance.DamageMesh(hit.collider.gameObject, 100);
                 }
             }
         }

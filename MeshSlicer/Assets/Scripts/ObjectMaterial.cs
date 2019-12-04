@@ -6,4 +6,9 @@ using UnityEngine;
 public class ObjectMaterial : MonoBehaviour
 {
     [SerializeField] public MaterialTypes MaterialType;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        MeshCutterManager.Instance.DamageMesh(gameObject, collision.relativeVelocity.magnitude * 10);
+    }
 }

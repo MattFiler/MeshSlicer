@@ -6,16 +6,18 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
 {
     private List<GameObject> CutTracker = new List<GameObject>();
 
-    /* Damage a GameObject's mesh */
-    public void DamageMesh(GameObject toDamage)
+    /* Damage a GameObject's mesh by an impact force */
+    public void DamageMesh(GameObject toDamage, float impactForce)
     {
         CutTracker.Clear();
         if (!toDamage.GetComponent<ObjectMaterial>()) return;
 
         MaterialTypes materialType = toDamage.GetComponent<ObjectMaterial>().MaterialType;
         if (!ObjectMaterialManager.Instance.CanMaterialBreak(materialType)) return;
+        if (ObjectMaterialManager.Instance.GetMaterialStrength(materialType) > impactForce) return;
 
-        int ShatterAmount = ((ObjectMaterialManager.Instance.GetMaterialDensity(materialType) - 100) * -1) / 10; //modulate this by the impact force
+        int ShatterAmount = (int)((((ObjectMaterialManager.Instance.GetMaterialDensity(materialType) - 100.0f) * -1.0f) / 10.0f) * (impactForce / 10.0f));
+        Debug.Log("GameObject " + toDamage.name + " damaged! Shattering " + ShatterAmount + " times.");
         RecursivelyCut(toDamage, ShatterAmount);
     }
 

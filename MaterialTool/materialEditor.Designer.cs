@@ -99,9 +99,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 84);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(158, 13);
+            this.label6.Size = new System.Drawing.Size(163, 13);
             this.label6.TabIndex = 21;
-            this.label6.Text = "Fragility of material when broken";
+            this.label6.Text = "Strength of material when broken";
             // 
             // MaterialStrength
             // 
