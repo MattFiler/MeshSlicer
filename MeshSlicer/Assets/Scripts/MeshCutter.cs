@@ -85,7 +85,8 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         //Our original game object's mesh becomes the left mesh
         Mesh leftMeshFinal = leftMesh.AsUnityMesh();
         cutObject.GetComponent<MeshFilter>().mesh = leftMeshFinal;
-        cutObject.AddComponent<MeshCollider>().sharedMesh = leftMeshFinal;
+        if (!cutObject.GetComponent<MeshCollider>()) cutObject.AddComponent<MeshCollider>().sharedMesh = leftMeshFinal;
+        else cutObject.GetComponent<MeshCollider>().sharedMesh = leftMeshFinal;
         cutObject.GetComponent<MeshCollider>().convex = true;
 
         //Update materials in the original mesh
