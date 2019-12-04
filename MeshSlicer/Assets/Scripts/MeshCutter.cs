@@ -267,7 +267,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         List<Vector3> vertices = new List<Vector3>();
         List<Vector3> meshPoly = new List<Vector3>();
 
-        for (int i = 0; i < newVerts.Count; i++) //newVerts.Count - 1?
+        for (int i = 0; i < newVerts.Count - 1; i++) 
         {
             if (!vertices.Contains(newVerts[i]))
             {
