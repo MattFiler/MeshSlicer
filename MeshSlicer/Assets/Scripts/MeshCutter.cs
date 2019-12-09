@@ -15,7 +15,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
     private Mesh originalMesh = null;
 
     /* Split a given game object's mesh into left/right sides, fill the middle, and put back to the world */
-    public GameObject Cut(GameObject cutObject, Vector3 cutPoint, Vector3 cutDirection)
+    public GameObject Cut(GameObject cutObject, Vector3 cutPoint, Vector3 cutDirection, bool enableGravityForNewMesh = true, bool canNewMeshShatter = false)
     {
         if (currentlyCutting) return null;
         currentlyCutting = true;
@@ -111,6 +111,8 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         offcutObject.transform.localScale = cutObject.transform.localScale;
         offcutObject.AddComponent<MeshRenderer>();
         offcutObject.AddComponent<Rigidbody>();
+        offcutObject.GetComponent<Rigidbody>().useGravity = enableGravityForNewMesh;
+        if (canNewMeshShatter && cutObject.GetComponent<ObjectMaterial>()) offcutObject.AddComponent<ObjectMaterial>().MaterialType = cutObject.GetComponent<ObjectMaterial>().MaterialType;
 
         //The new game object gets our right mesh
         Mesh finishedRightMesh = rightMesh.AsUnityMesh();

@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class MeshCutterManager : MonoSingleton<MeshCutterManager>
 {
-    private List<GameObject> CutTracker = new List<GameObject>();
+    private List<GameObject> CutTrackerS1 = new List<GameObject>();
+    private List<GameObject> CutTrackerS2 = new List<GameObject>();
 
     /* Damage a GameObject's mesh by an impact force */
     public void DamageMesh(GameObject toDamage, float impactForce)
     {
-        CutTracker.Clear();
-        if (!toDamage.GetComponent<ObjectMaterial>()) return;
+        CutTrackerS1.Clear();
+        CutTrackerS2.Clear();
+        ObjectMaterial materialDefinition = toDamage.GetComponent<ObjectMaterial>();
+        if (!materialDefinition) return;
 
-        MaterialTypes materialType = toDamage.GetComponent<ObjectMaterial>().MaterialType;
+        MaterialTypes materialType = materialDefinition.MaterialType;
         if (!ObjectMaterialManager.Instance.CanMaterialBreak(materialType)) return;
         if (ObjectMaterialManager.Instance.GetMaterialStrength(materialType) > impactForce) return;
 
@@ -27,17 +30,17 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
     {
         GameObject toCut2 = RandomCut(toCut); //This effectively halves our realtime workload
 
-        StartCoroutine(RecursivelyCutSubCoroutine(toCut, MaxCuts / 2));
-        StartCoroutine(RecursivelyCutSubCoroutine(toCut2, MaxCuts / 2));
+        StartCoroutine(RecursivelyCutSubCoroutine(toCut, MaxCuts/2, CutTrackerS1));
+        StartCoroutine(RecursivelyCutSubCoroutine(toCut2, MaxCuts/2, CutTrackerS2));
 
         yield return new WaitForEndOfFrame();
     }
-    private IEnumerator RecursivelyCutSubCoroutine(GameObject toCut, int MaxCuts)
+    private IEnumerator RecursivelyCutSubCoroutine(GameObject toCut, int MaxCuts, List<GameObject> CutTracker)
     {
-        RecursivelyCut(toCut, MaxCuts);
+        RecursivelyCut(toCut, MaxCuts, CutTracker);
         yield return new WaitForEndOfFrame();
     }
-    private void RecursivelyCut(GameObject toCut, int MaxCuts)
+    private void RecursivelyCut(GameObject toCut, int MaxCuts, List<GameObject> CutTracker)
     {
         if (CutTracker.Count >= MaxCuts) return;
         if (!CutTracker.Contains(toCut)) CutTracker.Add(toCut);
@@ -50,7 +53,7 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
         }
         CutTracker.AddRange(NewEntries);
 
-        RecursivelyCut(toCut, MaxCuts);
+        RecursivelyCut(toCut, MaxCuts, CutTracker);
     }
 
     /* Perform a random cut on a mesh */
