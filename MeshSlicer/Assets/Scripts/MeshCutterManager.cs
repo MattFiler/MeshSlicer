@@ -22,8 +22,17 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
         StartCoroutine(RecursivelyCutCoroutine(toDamage, ShatterAmount));
     }
 
-    /* Recursively cut a GameObject's mesh */
+    /* Recursively cut a GameObject's mesh (call RecursivelyCutCoroutine to cut once, then coroutine out down each of those two new meshes) */
     private IEnumerator RecursivelyCutCoroutine(GameObject toCut, int MaxCuts)
+    {
+        GameObject toCut2 = RandomCut(toCut); //This effectively halves our realtime workload
+
+        StartCoroutine(RecursivelyCutSubCoroutine(toCut, MaxCuts / 2));
+        StartCoroutine(RecursivelyCutSubCoroutine(toCut2, MaxCuts / 2));
+
+        yield return new WaitForEndOfFrame();
+    }
+    private IEnumerator RecursivelyCutSubCoroutine(GameObject toCut, int MaxCuts)
     {
         RecursivelyCut(toCut, MaxCuts);
         yield return new WaitForEndOfFrame();
@@ -37,15 +46,21 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
         foreach (GameObject cutEntry in CutTracker)
         {
             if (cutEntry == null) continue;
-            List<Vector3> VertOut = new List<Vector3>();
-            cutEntry.GetComponent<MeshFilter>().mesh.GetVertices(VertOut);
-            if (VertOut.Count == 0) continue;
-            Vector3 VertToUse = VertOut[Random.Range(0, VertOut.Count)];
-            NewEntries.Add(MeshCutter.Instance.Cut(cutEntry, cutEntry.transform.TransformPoint(VertToUse), new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360))));
+            NewEntries.Add(RandomCut(cutEntry));
         }
         CutTracker.AddRange(NewEntries);
 
         RecursivelyCut(toCut, MaxCuts);
+    }
+
+    /* Perform a random cut on a mesh */
+    private GameObject RandomCut(GameObject toCut)
+    {
+        List<Vector3> VertOut = new List<Vector3>();
+        toCut.GetComponent<MeshFilter>().mesh.GetVertices(VertOut);
+        if (VertOut.Count == 0) return null;
+        Vector3 VertToUse = VertOut[Random.Range(0, VertOut.Count)];
+        return MeshCutter.Instance.Cut(toCut, toCut.transform.TransformPoint(VertToUse), new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)));
     }
 
     /* Delete a triangle at a given index in a given GameObject's mesh */
