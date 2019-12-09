@@ -11,7 +11,6 @@ public class ObjectMaterialManager : MonoSingleton<ObjectMaterialManager>
     private void Start()
     {
         materialData = (MaterialDefinitions)JsonUtility.FromJson(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/material_types.json"), typeof(MaterialDefinitions));
-        Debug.Log(materialData.materials.Count);
     }
 
     /* Can the requested material break? */

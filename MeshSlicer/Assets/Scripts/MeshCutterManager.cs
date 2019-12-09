@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class MeshCutterManager : MonoSingleton<MeshCutterManager>
@@ -18,15 +19,20 @@ public class MeshCutterManager : MonoSingleton<MeshCutterManager>
 
         int ShatterAmount = (int)((((ObjectMaterialManager.Instance.GetMaterialDensity(materialType) - 100.0f) * -1.0f) / 10.0f) * (impactForce / 10.0f));
         Debug.Log("GameObject " + toDamage.name + " damaged! Shattering " + ShatterAmount + " times.");
-        RecursivelyCut(toDamage, ShatterAmount);
+        StartCoroutine(RecursivelyCutCoroutine(toDamage, ShatterAmount));
     }
 
     /* Recursively cut a GameObject's mesh */
+    private IEnumerator RecursivelyCutCoroutine(GameObject toCut, int MaxCuts)
+    {
+        RecursivelyCut(toCut, MaxCuts);
+        yield return new WaitForEndOfFrame();
+    }
     private void RecursivelyCut(GameObject toCut, int MaxCuts)
     {
         if (CutTracker.Count >= MaxCuts) return;
         if (!CutTracker.Contains(toCut)) CutTracker.Add(toCut);
-
+        
         List<GameObject> NewEntries = new List<GameObject>();
         foreach (GameObject cutEntry in CutTracker)
         {

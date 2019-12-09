@@ -21,6 +21,13 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         currentlyCutting = true;
         originalMesh = cutObject.GetComponent<MeshFilter>().mesh;
 
+        //Pull materials from original GO to prevent execution order issue
+        Material[] oldMaterials = new Material[originalMesh.subMeshCount];
+        for (int i = 0; i < oldMaterials.Length; i++)
+        {
+            oldMaterials[i] = cutObject.GetComponent<MeshRenderer>().materials[i];
+        }
+
         //Create a plane to cut the game object with
         Plane cutPlane = new Plane(cutObject.transform.InverseTransformDirection(-cutDirection), cutObject.transform.InverseTransformPoint(cutPoint));
 
@@ -93,7 +100,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         Material[] newMaterials = new Material[leftMeshFinal.subMeshCount];
         for (int i = 0; i < leftMeshFinal.subMeshCount; i++)
         {
-            newMaterials[i] = cutObject.GetComponent<MeshRenderer>().material;
+            newMaterials[i] = oldMaterials[0]; //TODO: A way to remap models that have multiple materials
         }
         cutObject.GetComponent<MeshRenderer>().materials = newMaterials;
 
@@ -115,7 +122,7 @@ public class MeshCutter : MonoSingleton<MeshCutter>
         newMaterials = new Material[finishedRightMesh.subMeshCount];
         for (int i = 0; i < finishedRightMesh.subMeshCount; i++)
         {
-            newMaterials[i] = cutObject.GetComponent<MeshRenderer>().material;
+            newMaterials[i] = oldMaterials[0]; //TODO: A way to remap models that have multiple materials
         }
         offcutObject.GetComponent<MeshRenderer>().materials = newMaterials;
 
