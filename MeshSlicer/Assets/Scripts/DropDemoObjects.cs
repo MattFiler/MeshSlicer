@@ -11,17 +11,17 @@ public class DropDemoObjects : MonoBehaviour
     /* Disable gravity as default */
     void Start()
     {
-        ObjectOne.useGravity = false;
-        ObjectTwo.useGravity = false;
+        if (ObjectOne) ObjectOne.useGravity = false;
+        if (ObjectTwo) ObjectTwo.useGravity = false;
     }
     
     /* Enable gravity on button press */
     void Update()
     {
-        if (Input.GetKeyDown(TriggerKey) && !ObjectOne.useGravity)
+        if (Input.GetKeyDown(TriggerKey))
         {
-            ObjectOne.useGravity = true;
-            ObjectTwo.useGravity = true;
+            if (ObjectOne) ObjectOne.useGravity = true;
+            if (ObjectTwo) ObjectTwo.useGravity = true;
         }
     }
 }
